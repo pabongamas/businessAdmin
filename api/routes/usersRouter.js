@@ -4,7 +4,7 @@ const UsersService = require('./../services/users.service');
 // const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
 
 const router=express.Router();
-// const service=new UsersService();
+const service=new UsersService();
 
 router.get('/', async (req, res, next) => {
   try {
