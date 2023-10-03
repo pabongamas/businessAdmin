@@ -18,9 +18,16 @@ const RolsSchema = {
 }
 
 class Role extends Model {
+    // static associate(models) {
+    //     this.belongsToMany(models.Role, {
+    //       through: models.UserRole,
+    //       foreignKey: 'user_id',
+    //       otherKey: 'role_id'
+    //     });
+    //   }
   static associate(models) {
     this.belongsToMany(models.User, {
-        through: 'Users_Roles', // Nombre de la tabla intermedia
+        through:models.UserRole, // Nombre de la tabla intermedia
         foreignKey: 'role_id', // Nombre de la clave foránea en UsuarioRoles que hace referencia a Rol
       });
   }
