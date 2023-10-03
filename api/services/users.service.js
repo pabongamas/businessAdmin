@@ -17,17 +17,15 @@ class UsersService {
   // }
 
   async find() {
-    console.log(models.User);
-    // const rta = await models.User.findAll({
-    //   // include:['customer']
-    // });
-    // return rta;
+    const rta = await models.User.findAll({
+      include:['customer']
+    });
+    return rta;
     // const query='select * from tasks';
     // try {
     //   const rta=await this.pool.query(query);
     //   return rta.rows;
     // } catch (e) {
-     console.log("aca");
     // }
 
     // const client = await getConnection();
