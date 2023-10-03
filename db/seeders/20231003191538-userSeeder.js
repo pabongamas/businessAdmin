@@ -19,15 +19,15 @@ module.exports = {
         password: await bcrypt.hash("245Sl4y3r#", 10),
         create_at: new Date(),
       },
+      {
+        email: "pabongamas3@gmail.com",
+        password: await bcrypt.hash("245Sl4y3r#", 10),
+        create_at: new Date(),
+      },
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    return queryInterface.bulkDelete(USER_TABLE, null, {});
   },
 };

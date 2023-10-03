@@ -12,7 +12,8 @@
     "migrations:revert": "sequelize-cli db:migrate:undo",
     "migrations:delete": "sequelize-cli db:migrate:undo:all",
     "migrations:new-seeder":"sequelize-cli seed:generate --name",
-    "migrations:seeder:run":"sequelize-cli db:seed:all"
+    "migrations:seeder:run":"sequelize-cli db:seed:all",
+    "migrations:seeder:delete":"sequelize-cli db:seed:undo:all"
   },
   "author": "",
   "license": "ISC",

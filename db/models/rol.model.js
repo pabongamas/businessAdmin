@@ -18,13 +18,6 @@ const RolsSchema = {
 }
 
 class Role extends Model {
-    // static associate(models) {
-    //     this.belongsToMany(models.Role, {
-    //       through: models.UserRole,
-    //       foreignKey: 'user_id',
-    //       otherKey: 'role_id'
-    //     });
-    //   }
   static associate(models) {
     this.belongsToMany(models.User, {
         through:models.UserRole, // Nombre de la tabla intermedia

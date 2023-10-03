@@ -42,7 +42,8 @@ class User extends Model {
     this.belongsToMany(models.Role, {
       through: models.UserRole,
       foreignKey: 'user_id',
-      // otherKey: 'role_id'
+      otherKey: 'role_id',
+      as:'roles'
     });
   }
 

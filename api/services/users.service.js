@@ -18,7 +18,7 @@ class UsersService {
 
   async find() {
     const rta = await models.User.findAll({
-      // include:['customer']
+      include:['roles']
     });
     return rta;
     // const query='select * from tasks';
