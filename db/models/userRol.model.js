@@ -31,7 +31,7 @@ class UserRole extends Model {
         return {
             sequelize,
             tableName: USERS_ROLES_TABLE,
-            modelName: 'Users_Roles',
+            modelName: 'UserRole',
             timestamps: false
         }
     }
