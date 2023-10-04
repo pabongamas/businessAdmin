@@ -45,6 +45,12 @@ class User extends Model {
       otherKey: 'role_id',
       as:'roles'
     });
+    this.belongsToMany(models.Business, {
+      through: models.UserBusinessRole,
+      foreignKey: "user_id",
+      otherKey: "user_id",
+      as: "business",
+    });
   }
 
   static config(sequelize) {

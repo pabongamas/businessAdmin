@@ -53,27 +53,27 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        field:'user_role_id',
+        field: "user_business_rol_id",
       },
       idUser: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        field:'user_id',
+        field: "user_id",
         references: {
           model: USER_TABLE,
-          key: 'user_id'
+          key: "user_id",
         },
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       },
       idRole: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        field:'role_id',
+        field: "role_id",
         references: {
           model: ROLS_TABLE,
-          key: 'role_id'
+          key: "role_id",
         },
-        onDelete: 'CASCADE'
+        onDelete: "CASCADE",
       },
     });
   },
