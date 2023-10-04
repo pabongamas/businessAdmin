@@ -7,8 +7,13 @@ class RolsService {
   }
   async find() {
     const rta = await models.Role.findAll({
-        include:['users'],
-          attributes: ['id','name'], // Lista de campos que deseas incluir en el resultado
+      include: [
+        {
+          association: "users",
+          through: { attributes: [] }, // este no muestra los campos redundantemente en las relaciones tomany o mamy to many
+          attributes: ["id", "email"], // Lista de campos que deseas incluir en el resultado
+        },
+      ],
     });
     return rta;
   }

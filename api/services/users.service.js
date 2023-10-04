@@ -10,8 +10,9 @@ class UsersService {
       // include:['roles']
       include: [
         {
-          association:'roles',
-          attributes: ['id','name'], // Lista de campos que deseas incluir en el resultado
+          association: "roles",
+          through: { attributes: [] }, // este no muestra los campos redundantemente en las relaciones tomany o mamy to many
+          attributes: ["id", "name"], // Lista de campos que deseas incluir en el resultado
         },
       ],
     });
