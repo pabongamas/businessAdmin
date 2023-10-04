@@ -23,12 +23,10 @@ router.get('/:id',
       const user = await service.findOne(id);
       res.json(user);
     } catch (error) {
-      
-      // next(error);
+      next(error);
     }
   }
 );
-
 // router.post('/',
 //   validatorHandler(createUserSchema, 'body'),
 //   async (req, res, next) => {
