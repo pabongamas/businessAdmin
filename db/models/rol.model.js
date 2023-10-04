@@ -22,6 +22,7 @@ class Role extends Model {
     this.belongsToMany(models.User, {
         through:models.UserRole, // Nombre de la tabla intermedia
         foreignKey: 'role_id', // Nombre de la clave foránea en UsuarioRoles que hace referencia a Rol
+        as:'users'
       });
   }
 
