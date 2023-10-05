@@ -29,12 +29,12 @@ const UserSchema = {
   //   type:DataTypes.INTEGER,
   //   field:'recovery_token',
   // },
-  createdAt: {
-    allowNull: false,
-    type: DataTypes.DATE,
-    field: 'create_at',
-    defaultValue: Sequelize.NOW
-  }
+  // createdAt: {
+  //   allowNull: false,
+  //   type: DataTypes.DATE,
+  //   field: 'create_at',
+  //   defaultValue: Sequelize.NOW
+  // }
 }
 
 class User extends Model {
@@ -47,9 +47,9 @@ class User extends Model {
     });
     this.belongsToMany(models.Business, {
       through: models.UserBusinessRole,
-      foreignKey: "user_id",
-      otherKey: "user_id",
-      as: "business",
+      foreignKey: 'user_id',     // Clave foránea en UserBusinessRole que se relaciona con User
+      otherKey: 'business_id',   // Clave foránea en UserBusinessRole que se relaciona con Business
+      as:'BusinessxUser'
     });
   }
 

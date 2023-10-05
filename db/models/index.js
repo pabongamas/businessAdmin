@@ -13,10 +13,7 @@ function setupModels(sequelize) {
   Role.init(RolsSchema, Role.config(sequelize));
   UserRole.init(UsersRolsSchema, UserRole.config(sequelize));
   Business.init(BusinessSchema, Business.config(sequelize));
-  UserBusinessRole.init(
-    UserBusinessRoleSchema,
-    UserBusinessRole.config(sequelize)
-  );
+  UserBusinessRole.init( UserBusinessRoleSchema,UserBusinessRole.config(sequelize));
 
   User.associate(sequelize.models);
   Role.associate(sequelize.models);

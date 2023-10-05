@@ -25,11 +25,15 @@ class Role extends Model {
         as:'users'
       });
 
-      this.belongsToMany(models.Business, {
-        through: models.UserBusinessRole, // Nombre de la tabla intermedia
-        foreignKey: "role_id", // Nombre de la clave foránea en UsuarioRoles que hace referencia a Rol
-        as: "businessRol",
-      });
+      // this.belongsToMany(models.Business, {
+      //   through: models.UserBusinessRole, // Nombre de la tabla intermedia
+      //   foreignKey: "role_id", // Nombre de la clave foránea en UsuarioRoles que hace referencia a Rol
+      //   as: "businessRol",
+      // });
+      // this.belongsToMany(models.User, {
+      //   through: models.UserBusinessRole,
+      //   foreignKey: 'role_id',
+      // });
   }
 
   static config(sequelize) {
