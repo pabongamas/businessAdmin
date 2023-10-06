@@ -1,7 +1,11 @@
 const express = require("express");
 const BusinessService = require("./../services/business.service");
-// const validatorHandler = require('./../middlewares/validator.handler');
-// const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
+const validatorHandler = require("./../middlewares/validator.handler");
+const {
+  createBusinessSchema,
+  updateBusinessSchema,
+  getBusinessSchema,
+} = require("./../schemas/business.schema");
 
 const router = express.Router();
 const service = new BusinessService();
@@ -14,5 +18,35 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  "/",
+  // autenticacionJwt,checkRoles('admin'),
+  validatorHandler(createBusinessSchema, "body"),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newBusiness = await service.create(body);
+      res.status(201).json(newBusiness);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.patch(
+  "/:id",
+  validatorHandler(getBusinessSchema, "params"),
+  validatorHandler(updateBusinessSchema, "body"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const business = await service.update(id, body);
+      res.json(business);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
