@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const routerApi=require('./routes');
 const {config}=require('./../config/config')
 
@@ -11,8 +12,8 @@ app.get("/api",(req, res) =>{
     res.send("Hola mi server en Express");
 });
   
-
-  routerApi(app);
+app.use(cors());
+routerApi(app);
 //   app.use(logErrors);
 //   app.use(ormErrorHandler);
   app.use(boomErrorHandler);
