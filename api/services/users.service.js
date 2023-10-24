@@ -5,7 +5,7 @@ class UsersService {
   constructor() {}
   async find() {
     const rta = await models.User.findAll({
-      // include:['roles']
+      attributes: ['id', 'email'],
       include: [
         {
           association: "roles",
@@ -28,17 +28,17 @@ class UsersService {
     }
     return user;
   }
-
-  async update(id, changes) {
-    const user = await this.findOne(id);
-    const rta = await user.update(changes);
-    return rta;
+  async findByEmail(email) {
+    const user = await models.User.findOne({ where: { email: email } });
+    return user;
   }
 
   async create(data) {
+    const existUserByEmail=await this.findByEmail(data.email);
+    if(existUserByEmail!==null){
+      throw boom.conflict("Ya existe un usuario con este Email");
+    }
     const hash = await bcrypt.hash(data.password, 10);
-    console.log(hash);
-    console.log(data);
     try {
       const newUser = await models.User.create({
         ...data,
@@ -48,9 +48,25 @@ class UsersService {
       delete newUser.dataValues.password;
       return newUser;
     } catch (error) {
-      console.log(error);
+      throw boom.badRequest(error);
     }
    
+  }
+
+  async update(id, changes) {
+    const existUserByEmail=await this.findByEmail(changes.email);
+    if(existUserByEmail!==null){
+      throw boom.conflict("Ya existe un usuario con este Email");
+    }
+    const user = await this.findOne(id);
+    const rta = await user.update(changes);
+    delete rta.dataValues.password;
+    return rta;
+  }
+  async delete(id) {
+    const user =  await this.findOne(id);
+    await user.destroy();
+    return { id };
   }
 }
 
