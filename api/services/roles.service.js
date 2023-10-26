@@ -14,6 +14,7 @@ class RolsService {
           attributes: ["id", "email"], // Lista de campos que deseas incluir en el resultado
         },
       ],
+      order: [["id", "ASC"]],
     });
     return rta;
   }
