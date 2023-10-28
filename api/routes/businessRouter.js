@@ -18,7 +18,15 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-
+router.get("/searchBusiness", async (req, res, next) => {
+  try {
+    const { search } = req.query;
+    const users = await service.search(search);
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
 router.post(
   "/",
   // autenticacionJwt,checkRoles('admin'),
@@ -43,6 +51,19 @@ router.patch(
       const body = req.body;
       const business = await service.update(id, body);
       res.json(business);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.delete(
+  "/:id",
+  validatorHandler(getBusinessSchema, "params"),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({ id });
     } catch (error) {
       next(error);
     }
