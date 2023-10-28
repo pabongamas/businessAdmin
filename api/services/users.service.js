@@ -1,11 +1,35 @@
 const { models } = require("./../libs/sequelize");
 const boom = require("@hapi/boom");
 const bcrypt = require("bcrypt");
+const { Op } = require("sequelize");
 class UsersService {
   constructor() {}
   async find() {
     const rta = await models.User.findAll({
-      attributes: ['id', 'email'],
+      attributes: ["id", "email"],
+      include: [
+        {
+          association: "roles",
+          through: { attributes: [] }, // este no muestra los campos redundantemente en las relaciones tomany o mamy to many
+          attributes: ["id", "name"], // Lista de campos que deseas incluir en el resultado
+        },
+        {
+          association: "BusinessxUser",
+          through: { attributes: ["role_id", "user_id"] },
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+    return rta;
+  }
+  async search(data) {
+    const rta = await models.User.findAll({
+      where: {
+        email: {
+          [Op.iLike]: `%${data}%`,
+        },
+      },
+      attributes: ["id", "email"],
       include: [
         {
           association: "roles",
@@ -34,8 +58,8 @@ class UsersService {
   }
 
   async create(data) {
-    const existUserByEmail=await this.findByEmail(data.email);
-    if(existUserByEmail!==null){
+    const existUserByEmail = await this.findByEmail(data.email);
+    if (existUserByEmail !== null) {
       throw boom.conflict("Ya existe un usuario con este Email");
     }
     const hash = await bcrypt.hash(data.password, 10);
@@ -50,12 +74,14 @@ class UsersService {
     } catch (error) {
       throw boom.badRequest(error);
     }
-   
   }
 
   async update(id, changes) {
-    const existUserByEmail=await this.findByEmail(changes.email);
-    if(existUserByEmail!==null){
+    const existUserByEmail = await this.findByEmail(changes.email);
+    if (
+      existUserByEmail !== null &&
+      parseInt(existUserByEmail.dataValues.id) !== parseInt(id)
+    ) {
       throw boom.conflict("Ya existe un usuario con este Email");
     }
     const user = await this.findOne(id);
@@ -64,7 +90,7 @@ class UsersService {
     return rta;
   }
   async delete(id) {
-    const user =  await this.findOne(id);
+    const user = await this.findOne(id);
     await user.destroy();
     return { id };
   }

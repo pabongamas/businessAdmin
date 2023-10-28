@@ -1,17 +1,16 @@
 const { Sequelize } = require('sequelize');
 
+const { config } = require("./../../config/config");
+const setupModels = require("./../../db/models");
 
-const {config}=require('./../../config/config');
-const setupModels=require('./../../db/models');
-
-const USER=encodeURIComponent(config.dbUser);
-const PASSWORD=encodeURIComponent(config.dbPassword);
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword);
 // const URI=`mysql://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
- const URI=`postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
-const sequelize=new Sequelize(URI,{
+const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
+const sequelize = new Sequelize(URI, {
   // dialect:'mysql',
-  dialect:'postgres',
-  logging:true,
+  dialect: "postgres",
+  logging: true,
 });
 setupModels(sequelize);
 
