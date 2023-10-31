@@ -3,6 +3,9 @@ const Joi = require('joi');
 const id = Joi.number().integer();
 const email = Joi.string().email();
 const password = Joi.string().min(8);
+const userId = Joi.number().integer();
+const rolId = Joi.number().integer();
+
 
 const createUserSchema = Joi.object({
   email: email.required(),
@@ -19,5 +22,9 @@ const getUserSchema = Joi.object({
 const findUserSchema = Joi.object({
   email: email.required(),
 });
+const setRolToUserSchema = Joi.object({
+  userId: userId.required(),
+  rolId: rolId.required()
+});
 
-module.exports = { createUserSchema, updateUserSchema, getUserSchema }
+module.exports = { createUserSchema, updateUserSchema, getUserSchema, setRolToUserSchema }

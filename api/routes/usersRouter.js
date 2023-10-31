@@ -6,6 +6,7 @@ const {
   createUserSchema,
   getUserSchema,
   findUserSchema,
+  setRolToUserSchema
 } = require("./../schemas/user.schema");
 
 const router = express.Router();
@@ -76,6 +77,31 @@ router.delete('/:id',
       const { id } = req.params;
       await service.delete(id);
       res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post('/setRol',
+  validatorHandler(setRolToUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const rta = await service.setRol(body);
+      res.status(201).json(rta);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post('/unsetRol',
+  validatorHandler(setRolToUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      console.log(body);
+      const rta = await service.unSetRol(body);
+      res.status(201).json(rta);
     } catch (error) {
       next(error);
     }

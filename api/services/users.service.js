@@ -94,6 +94,23 @@ class UsersService {
     await user.destroy();
     return { id };
   }
+  async setRol(data) {
+    const newRolUser = await models.UserRole.create({
+      idUser: data.userId,
+      idRole: data.rolId
+    });
+    return newRolUser;
+  }
+  async unSetRol(data) {
+    const newRolUser = await models.UserRole.destroy({
+      where: {
+        idUser: data.userId,
+        idRole: data.rolId
+      }
+    });
+    return data;
+  }
+
 }
 
 module.exports = UsersService;
