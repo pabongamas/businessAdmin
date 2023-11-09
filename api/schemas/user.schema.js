@@ -5,6 +5,7 @@ const email = Joi.string().email();
 const password = Joi.string().min(8);
 const userId = Joi.number().integer();
 const rolId = Joi.number().integer();
+const businessId= Joi.number().integer();
 
 
 const createUserSchema = Joi.object({
@@ -26,5 +27,10 @@ const setRolToUserSchema = Joi.object({
   userId: userId.required(),
   rolId: rolId.required()
 });
+const setBusinessRolToUserSchema = Joi.object({
+  userId: userId.required(),
+  rolId: rolId.required(),
+  businessId:businessId.required()
+});
 
-module.exports = { createUserSchema, updateUserSchema, getUserSchema, setRolToUserSchema }
+module.exports = { createUserSchema, updateUserSchema, getUserSchema, setRolToUserSchema,setBusinessRolToUserSchema }

@@ -6,7 +6,8 @@ const {
   createUserSchema,
   getUserSchema,
   findUserSchema,
-  setRolToUserSchema
+  setRolToUserSchema,
+  setBusinessRolToUserSchema
 } = require("./../schemas/user.schema");
 
 const router = express.Router();
@@ -101,6 +102,18 @@ router.post('/unsetRol',
       const body = req.body;
       console.log(body);
       const rta = await service.unSetRol(body);
+      res.status(201).json(rta);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post('/setBusiness',
+  validatorHandler(setBusinessRolToUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const rta = await service.setBusinessRolToUser(body);
       res.status(201).json(rta);
     } catch (error) {
       next(error);

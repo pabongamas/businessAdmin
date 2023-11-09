@@ -110,6 +110,14 @@ class UsersService {
     });
     return data;
   }
+  async setBusinessRolToUser(data){
+    const newBusinessRolToUser = await models.UserBusinessRole.create({
+      idUser: data.userId,
+      idRole: data.rolId,
+      idBusiness:data.businessId
+    });
+    return newBusinessRolToUser;
+  }
 
 }
 
