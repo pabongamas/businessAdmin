@@ -13,9 +13,13 @@ const updateBusinessSchema = Joi.object({
 const getBusinessSchema = Joi.object({
   id: id.required(),
 });
+const getBusinessByuserSchema = Joi.object({
+  id: id.required(),
+});
 
 module.exports = {
   createBusinessSchema,
   updateBusinessSchema,
   getBusinessSchema,
+  getBusinessByuserSchema
 };

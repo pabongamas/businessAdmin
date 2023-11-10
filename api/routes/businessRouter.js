@@ -5,6 +5,7 @@ const {
   createBusinessSchema,
   updateBusinessSchema,
   getBusinessSchema,
+  getBusinessByuserSchema
 } = require("./../schemas/business.schema");
 
 const router = express.Router();
@@ -64,6 +65,19 @@ router.delete(
       const { id } = req.params;
       await service.delete(id);
       res.status(201).json({ id });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+router.post(
+  "/businessByUser",
+  validatorHandler(getBusinessByuserSchema, "body"),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newBusiness = await service.businessByUser(body);
+      res.status(201).json(newBusiness);
     } catch (error) {
       next(error);
     }
