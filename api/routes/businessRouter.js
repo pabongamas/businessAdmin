@@ -5,7 +5,8 @@ const {
   createBusinessSchema,
   updateBusinessSchema,
   getBusinessSchema,
-  getBusinessByuserSchema
+  getBusinessByuserSchema,
+  deleteBusinessRolByUser
 } = require("./../schemas/business.schema");
 
 const router = express.Router();
@@ -83,5 +84,19 @@ router.post(
     }
   }
 );
+router.post(
+  "/deleteBusinessRolByUser",
+  validatorHandler(deleteBusinessRolByUser, "body"),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newBusiness = await service.deleteBusinessRolByUser(body);
+      res.status(201).json(newBusiness);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 module.exports = router;

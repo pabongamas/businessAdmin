@@ -96,6 +96,16 @@ class BusinessService {
     await rol.destroy();
     return { id };
   }
+  async deleteBusinessRolByUser(data) {
+    const businessRoleByUser = await models.UserBusinessRole.destroy({
+      where: {
+        user_id: data.userId,
+        role_id: data.rolId,
+        business_id: data.businessId,
+      }
+    });
+    return { data };
+  }
 }
 
 module.exports = BusinessService;
