@@ -1,5 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { CATEGORIES_TABLE } = require('./categorieProduct.model');
+const { BUSINESS_TABLE } = require('./business.model');
+
 
 const PRODUCT_TABLE = 'products';
 
@@ -14,13 +16,15 @@ const ProductSchema = {
   business_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    unique: true,
+    references: { model: BUSINESS_TABLE, key: 'business_id' },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   categoryId: {
     field: 'category_id',
     allowNull: false,
     type: DataTypes.INTEGER,
-    references: { model: CATEGORIES_TABLE, key: 'id' },
+    references: { model: CATEGORIES_TABLE, key: 'category_id' },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
@@ -48,7 +52,7 @@ const ProductSchema = {
 class Product extends Model {
   static associate(models) {
     this.belongsTo(models.Categories, { as: 'category' });
-    this.hasMany(modeles.Business,{as :'productBusiness'});
+    this.belongsTo(modeles.Business,{as :'productBusiness'});
   }
 
   static config(sequelize) {

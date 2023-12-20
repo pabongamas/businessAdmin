@@ -7,13 +7,19 @@ const CategoriesSchema = {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: Sequelize.INTEGER,
-    field: "id",
+    type: DataTypes.INTEGER,
+    field:'category_id',
   },
   name: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: "name",
+  },
+  image: { type: DataTypes.STRING, allowNull: false },
+  createdAt: {
+    allowNull: true,
+    type: DataTypes.DATE,
+    field: 'create_at',
+    defaultValue: Sequelize.NOW
   }
 };
 
