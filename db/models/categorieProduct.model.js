@@ -14,7 +14,7 @@ const CategoriesSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  image: { type: DataTypes.STRING, allowNull: false },
+  image: { type: DataTypes.STRING, allowNull: true },
   createdAt: {
     allowNull: true,
     type: DataTypes.DATE,
