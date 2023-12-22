@@ -6,6 +6,8 @@ const {
   UserBusinessRole,
   UserBusinessRoleSchema,
 } = require("./UserBusinessRol.model");
+const {Categories,CategoriesSchema}=require("./categorieProduct.model");
+const {Product,ProductSchema}=require("./product.model");
 const { Sequelize } = require("sequelize");
 
 function setupModels(sequelize) {
@@ -14,12 +16,16 @@ function setupModels(sequelize) {
   UserRole.init(UsersRolsSchema, UserRole.config(sequelize));
   Business.init(BusinessSchema, Business.config(sequelize));
   UserBusinessRole.init( UserBusinessRoleSchema,UserBusinessRole.config(sequelize));
+  Categories.init(CategoriesSchema,Categories.config(sequelize));
+  Product.init(ProductSchema,Product.config(sequelize));
 
   User.associate(sequelize.models);
   Role.associate(sequelize.models);
   UserRole.associate(sequelize.models);
   Business.associate(sequelize.models);
   UserBusinessRole.associate(sequelize.models);
+  Categories.associate(sequelize.models);
+  Product.associate(sequelize.models);
 }
 
 module.exports = setupModels;
