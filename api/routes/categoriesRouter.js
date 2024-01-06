@@ -54,6 +54,18 @@ router.patch('/:category_id',
     }
   }
 );
+router.delete('/:category_id',
+  validatorHandler(getCategorieSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { category_id } = req.params;
+      await service.delete(category_id);
+      res.status(201).json({category_id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 
 

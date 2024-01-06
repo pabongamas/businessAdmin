@@ -64,6 +64,11 @@ class CategorieService {
     const rta = await categorie.update(changes);
     return rta;
   }
+  async delete(id) {
+    const categorie = await this.findOne(id);
+    await categorie.destroy();
+    return { id };
+  }
 }
 
 module.exports = CategorieService;
