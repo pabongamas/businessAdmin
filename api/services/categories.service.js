@@ -59,12 +59,19 @@ class CategorieService {
     ) {
       throw boom.conflict("Ya existe una categoria con este Nombre");
     }
-    console.log(id);
     const categorie = await this.findOne(id);
     const rta = await categorie.update(changes);
     return rta;
   }
   async delete(id) {
+    const productsByCategorie=await models.Product.findAll({
+      where:{
+        category_id:id
+      }
+    });
+   if(productsByCategorie.length>0){
+    throw boom.conflict("Esta categoria esta siendo utilizada , no se puede eliminar");
+   }
     const categorie = await this.findOne(id);
     await categorie.destroy();
     return { id };
