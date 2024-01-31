@@ -4,6 +4,13 @@ const { Op } = require("sequelize");
 
 class ProductService {
     constructor() { }
+    async findOne(product_id) {
+        const product = await models.Product.findByPk(product_id);
+        if (!product) {
+            throw boom.notFound("Producto no encontrado");
+        }
+        return product;
+    }
     async find() {
         const rta = await models.Product.findAll({
             attributes: ['id', 'business_id', 'category_id', 'name', 'description', 'image', 'price', 'create_at'],
@@ -63,6 +70,35 @@ class ProductService {
             ]
         });
         return rta;
+    }
+    async create(data) {
+        // const existCategorieByName = await this.findByCategorie(data.name);
+        // if (existCategorieByName !== null) {
+        //   throw boom.conflict("Ya existe una categoria con este Nombre");
+        // }
+        const { category_id, ...restChanges } = data;
+        const updatedChanges = { ...restChanges, categoryId: category_id };
+        try {
+          const newProduct = await models.Product.create({
+            ...updatedChanges
+          });
+          return newProduct;
+        } catch (error) {
+          throw boom.badRequest(error);
+        }
+      }
+    async update(id, changes) {
+        const product = await this.findOne(id);
+        // Utilizando desestructuración para asignar category_id a categoryId
+        const { category_id, ...restChanges } = changes;
+        const updatedChanges = { ...restChanges, categoryId: category_id };
+        const rta = await product.update(updatedChanges);
+        return rta;
+    }
+    async delete(id) {
+        const product = await this.findOne(id);
+        await product.destroy();
+        return { id };
     }
 }
 

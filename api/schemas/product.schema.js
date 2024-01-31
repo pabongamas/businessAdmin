@@ -17,16 +17,21 @@ const createProductSchema = Joi.object({
     price:price.required(),
 });
 
-// const updateCategorieSchema = Joi.object({
-//     name: name
-// });
+const updateProductSchema = Joi.object({
+    name: name.required(),
+    description: description,
+    image: image,
+    price:price.required(),
+    business_id: business_id.required(),
+    category_id: category_id.required(),
+});
 
-// const getCategorieSchema = Joi.object({
-//     category_id: category_id.required(),
-// });
+const getProductSchema = Joi.object({
+    product_id: product_id.required(),
+});
 // const findCategorieSchema = Joi.object({
 //     name: name.required(),
 // });
 
-module.exports = { createProductSchema}
+module.exports = { createProductSchema,getProductSchema,updateProductSchema}
 
