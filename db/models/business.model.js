@@ -31,7 +31,7 @@ class Business extends Model {
       otherKey: 'user_id',       // Clave foránea en UserBusinessRole que se relaciona con User
       as:'userxBusiness'
     });
-    
+    this.hasMany(models.Product, { as: 'products', foreignKey: 'business_id' });
   
   }
 

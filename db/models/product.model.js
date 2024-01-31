@@ -53,6 +53,8 @@ const ProductSchema = {
 class Product extends Model {
   static associate(models) {
     this.belongsTo(models.Categories, { as: 'category' });
+    this.belongsTo(models.Business, { as: 'business', foreignKey: 'business_id' });
+
     // this.belongsTo(models.Business,{as :'productBusiness'});
   }
 
