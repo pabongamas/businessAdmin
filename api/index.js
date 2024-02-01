@@ -13,6 +13,7 @@ app.get("/api",(req, res) =>{
 });
   
 app.use(cors());
+require('./utils/auth');
 routerApi(app);
 //   app.use(logErrors);
 //   app.use(ormErrorHandler);
