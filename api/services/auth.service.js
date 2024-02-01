@@ -27,10 +27,12 @@ class AuthService {
           sub: user.id,
           email: user.email,
         };
-        const token = jwt.sign(payload, config.jwtSecret);
+        const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '15m' }); // Define una expiración para el Access Token
+        const refreshToken = jwt.sign({}, config.jwtSecret, { expiresIn: '7d' }); // Define una expiración para el Refresh Token
         return {
           user,
-          token,
+          accessToken,
+          refreshToken,
         };
       }
 
