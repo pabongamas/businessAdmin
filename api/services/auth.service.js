@@ -22,13 +22,18 @@ class AuthService {
         delete user.dataValues.recoveryToken;
         return user;
       }
-      signToken(user) {
+      async signToken(user) {
         const payload = {
           sub: user.id,
           email: user.email,
         };
-        const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '15m' }); // Define una expiración para el Access Token
+        const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '1m' }); // Define una expiración para el Access Token
         const refreshToken = jwt.sign({}, config.jwtSecret, { expiresIn: '7d' }); // Define una expiración para el Refresh Token
+        var id =user.id;
+
+        const userData = await service.findOne(id);
+        const changes={refreshToken:refreshToken};
+        await userData.update(changes);
         return {
           user,
           accessToken,

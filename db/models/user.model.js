@@ -19,22 +19,22 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING
   },
-  // recoveryToken: {
-  //   field:'recovery_token',
-  //   allowNull: true,
-  //   type: DataTypes.STRING
-  // },
+  refreshToken: {
+    field:'refresh_token',
+    allowNull: true,
+    type: DataTypes.STRING
+  },
   // role:{
   //   allowNull:false,
   //   type:DataTypes.INTEGER,
   //   field:'recovery_token',
   // },
-  // createdAt: {
-  //   allowNull: false,
-  //   type: DataTypes.DATE,
-  //   field: 'create_at',
-  //   defaultValue: Sequelize.NOW
-  // }
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'create_at',
+    defaultValue: Sequelize.NOW
+  }
 }
 
 class User extends Model {
