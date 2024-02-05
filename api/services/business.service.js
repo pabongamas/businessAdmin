@@ -37,7 +37,6 @@ class BusinessService {
     return rta;
   }
   async businessByUser(data) {
-    console.log(data);
     const idUser=data.id;
     const rta = await models.Business.findAll({
       include: [

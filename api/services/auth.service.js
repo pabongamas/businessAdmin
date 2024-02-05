@@ -23,11 +23,18 @@ class AuthService {
         return user;
       }
       async signToken(user) {
+        const roleBusinessByUser=await service.searchRoleAndBusinessByUser(user);
+        const dataUser=roleBusinessByUser[0].dataValues;
+        var rolesId=[];
+        dataUser.roles.forEach(element => {
+          rolesId.push(element.dataValues.id);
+        });
         const payload = {
           sub: user.id,
           email: user.email,
+          rols:rolesId
         };
-        const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '1m' }); // Define una expiración para el Access Token
+        const accessToken = jwt.sign(payload, config.jwtSecret, { expiresIn: '15m' }); // Define una expiración para el Access Token
         const refreshToken = jwt.sign({}, config.jwtSecret, { expiresIn: '7d' }); // Define una expiración para el Refresh Token
         var id =user.id;
 

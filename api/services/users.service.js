@@ -118,6 +118,27 @@ class UsersService {
     });
     return newBusinessRolToUser;
   }
+  async searchRoleAndBusinessByUser(data) {
+    const rta = await models.User.findAll({
+      where: {
+        id: { [Op.eq]: data.id }
+      },
+      attributes: ["id", "email"],
+      include: [
+        {
+          association: "roles",
+          through: { attributes: [] }, // este no muestra los campos redundantemente en las relaciones tomany o mamy to many
+          attributes: ["id", "name"], // Lista de campos que deseas incluir en el resultado
+        },
+        {
+          association: "BusinessxUser",
+          through: { attributes: ["role_id", "user_id"] },
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+    return rta;
+  }
 
 }
 
