@@ -1,6 +1,8 @@
 const express = require("express");
+const passport = require('passport');
 const ProductService = require('./../services/products.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+const {checkAdminRole}=require('./../middlewares/auth.handler');
 
 
 const {
@@ -9,8 +11,9 @@ const {
 
 const router = express.Router();
 const service = new ProductService();
+const autenticacionJwt= passport.authenticate('jwt', { session: false });
 
-router.get("/", async (req, res, next) => {
+router.get("/",autenticacionJwt,checkAdminRole,async (req, res, next) => {
     try {
         const products = await service.find();
         res.json(products);
@@ -19,7 +22,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/searchProduct", async (req, res, next) => {
+router.get("/searchProduct",autenticacionJwt,checkAdminRole,async (req, res, next) => {
     try {
         const { search } = req.query;
         const categories = await service.search(search);
@@ -30,6 +33,7 @@ router.get("/searchProduct", async (req, res, next) => {
 });
 router.post('/',
   validatorHandler(createProductSchema, 'body'),
+  autenticacionJwt,checkAdminRole,
   async (req, res, next) => {
     try {
       const body = req.body;
