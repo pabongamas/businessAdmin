@@ -15,7 +15,7 @@ const autenticacionJwt= passport.authenticate('jwt', { session: false });
 
 router.get("/",autenticacionJwt,checkAdminRole,async (req, res, next) => {
     try {
-        const products = await service.find();
+        const products = await service.findByUserAndRole(req.user);
         res.json(products);
     } catch (error) {
         next(error);
@@ -48,6 +48,7 @@ router.post('/',
 router.patch('/:product_id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
+  autenticacionJwt,checkAdminRole,
   async (req, res, next) => {
     try {
       const { product_id } = req.params;
@@ -61,6 +62,7 @@ router.patch('/:product_id',
 );
 router.delete('/:product_id',
   validatorHandler(getProductSchema, 'params'),
+  autenticacionJwt,checkAdminRole,
   async (req, res, next) => {
     try {
       const { product_id } = req.params;

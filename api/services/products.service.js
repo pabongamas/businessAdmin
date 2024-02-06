@@ -1,6 +1,9 @@
 const { models } = require("./../libs/sequelize");
 const boom = require("@hapi/boom");
 const { Op } = require("sequelize");
+const userService = require('./../services/users.service');
+
+const serviceUser = new userService();
 
 class ProductService {
     constructor() { }
@@ -25,6 +28,39 @@ class ProductService {
                 as: 'business' // Alias para la relación, para que la información de la Business esté bajo la propiedad 'business'
             }
             ],
+            order: [['name', 'ASC']]
+        });
+        return rta;
+    }
+    async findByUserAndRole(userRole) {
+        userRole.id=userRole.sub;
+        var business;
+        var businessId=[];
+        const roleBusinessByUser=await serviceUser.searchRoleAndBusinessByUser(userRole);
+        if(roleBusinessByUser.length>0){
+           var business= roleBusinessByUser[0].BusinessxUser;
+           business.forEach(element => {
+            businessId.push(element.id);
+           });
+        }
+        const rta = await models.Product.findAll({
+            attributes: ['id', 'business_id', 'category_id', 'name', 'description', 'image', 'price', 'create_at'],
+            include: [{
+                model: models.Categories,
+                attributes: ['name'], // Puedes seleccionar las columnas que desees de la tabla de categorías
+                as: 'category' // Alias para la relación, para que la información de la categoría esté bajo la propiedad 'category'
+            },
+            {
+                model: models.Business,
+                attributes: ['name'], // Puedes seleccionar las columnas que desees de la tabla de Business
+                as: 'business' // Alias para la relación, para que la información de la Business esté bajo la propiedad 'business'
+            }
+            ],
+            where: {
+                business_id: {
+                  [Op.in]:businessId
+                }
+              },
             order: [['name', 'ASC']]
         });
         return rta;
