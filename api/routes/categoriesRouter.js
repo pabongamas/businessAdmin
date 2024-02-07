@@ -1,6 +1,8 @@
 const express = require("express");
+const passport = require('passport');
 const CategorieService = require('./../services/categories.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+const {checkAdminRole}=require('./../middlewares/auth.handler');
 
 const {
    createCategorieSchema,getCategorieSchema,updateCategorieSchema
@@ -8,8 +10,9 @@ const {
 
 const router = express.Router();
 const service = new CategorieService();
+const autenticacionJwt= passport.authenticate('jwt', { session: false });
 
-router.get("/", async (req, res, next) => {
+router.get("/",autenticacionJwt,checkAdminRole, async (req, res, next) => {
     try {
         const categories = await service.find();
         res.json(categories);
@@ -18,7 +21,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/searchCategorie", async (req, res, next) => {
+router.get("/searchCategorie",autenticacionJwt,checkAdminRole, async (req, res, next) => {
     try {
         const { search } = req.query;
         const categories = await service.search(search);
@@ -29,11 +32,13 @@ router.get("/searchCategorie", async (req, res, next) => {
 });
 router.post('/',
   validatorHandler(createCategorieSchema, 'body'),
+  autenticacionJwt,checkAdminRole,
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const user=req.user;
+      const newCategorie = await service.create(body,user);
+      res.status(201).json(newCategorie);
     } catch (error) {
       next(error);
     }

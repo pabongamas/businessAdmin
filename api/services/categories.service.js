@@ -1,6 +1,9 @@
 const { models } = require("./../libs/sequelize");
 const boom = require("@hapi/boom");
 const { Op } = require("sequelize");
+const userService = require('./../services/users.service');
+
+const serviceUser = new userService();
 
 class CategorieService {
   constructor() { }
@@ -29,14 +32,25 @@ class CategorieService {
     return rta;
   }
 
-  async create(data) {
+  async create(data,userRole) {
+    userRole.id=userRole.sub;
+    var business;
+    var businessId=[];
+    const roleBusinessByUser=await serviceUser.searchRoleAndBusinessByUser(userRole);
+    if(roleBusinessByUser.length>0){
+       var business= roleBusinessByUser[0].BusinessxUser;
+       business.forEach(element => {
+        businessId.push(element.id);
+       });
+    }
     const existCategorieByName = await this.findByCategorie(data.name);
     if (existCategorieByName !== null) {
       throw boom.conflict("Ya existe una categoria con este Nombre");
     }
     try {
       const newCategorie = await models.Categories.create({
-        ...data
+        ...data,
+        businessId:businessId[0]
       });
       return newCategorie;
     } catch (error) {
