@@ -31,6 +31,26 @@ class CategorieService {
     });
     return rta;
   }
+  async categoriessByBusiness(data) {
+    var business;
+    var businessId = [];
+    const roleBusinessByUser = await serviceUser.searchRoleAndBusinessByUser(data);
+    if (roleBusinessByUser.length > 0) {
+      var business = roleBusinessByUser[0].BusinessxUser;
+      business.forEach(element => {
+        businessId.push(element.id);
+      });
+    }
+    const rta = await models.Categories.findAll({
+      where: {
+        businessId: {
+          [Op.in]:businessId,
+        },
+      },
+      attributes: ['category_id', 'name', 'image', 'create_at'],
+    });
+    return rta;
+  }
 
   async create(data,userRole) {
     userRole.id=userRole.sub;

@@ -20,6 +20,16 @@ router.get("/",autenticacionJwt,checkAdminRole, async (req, res, next) => {
         next(error);
     }
 });
+router.get("/user",autenticacionJwt,checkAdminRole, async (req, res, next) => {
+  try {
+    const user=req.user;
+    user.id=user.sub;
+      const categories = await service.categoriessByBusiness(user);
+      res.json(categories);
+  } catch (error) {
+      next(error);
+  }
+});
 
 router.get("/searchCategorie",autenticacionJwt,checkAdminRole, async (req, res, next) => {
     try {
@@ -29,6 +39,16 @@ router.get("/searchCategorie",autenticacionJwt,checkAdminRole, async (req, res, 
     } catch (error) {
         next(error);
     }
+});
+router.get("/byBusiness",autenticacionJwt,checkAdminRole, async (req, res, next) => {
+  try {
+    const user=req.user;
+    user.id=user.sub;
+    const business = await service.categoriessByBusiness(user);
+    res.json(business);
+  } catch (error) {
+    next(error);
+  }
 });
 router.post('/',
   validatorHandler(createCategorieSchema, 'body'),

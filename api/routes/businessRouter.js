@@ -1,6 +1,8 @@
 const express = require("express");
+const passport = require('passport');
 const BusinessService = require("./../services/business.service");
 const validatorHandler = require("./../middlewares/validator.handler");
+const {checkAdminRole}=require('./../middlewares/auth.handler');
 const {
   createBusinessSchema,
   updateBusinessSchema,
@@ -8,6 +10,7 @@ const {
   getBusinessByuserSchema,
   deleteBusinessRolByUser
 } = require("./../schemas/business.schema");
+const autenticacionJwt= passport.authenticate('jwt', { session: false });
 
 const router = express.Router();
 const service = new BusinessService();
@@ -16,6 +19,16 @@ router.get("/", async (req, res, next) => {
   try {
     const roles = await service.find();
     res.json(roles);
+  } catch (error) {
+    next(error);
+  }
+});
+router.get("/byUser",autenticacionJwt,checkAdminRole, async (req, res, next) => {
+  try {
+    const user=req.user;
+    user.id=user.sub;
+    const business = await service.businessByUser(user);
+    res.json(business);
   } catch (error) {
     next(error);
   }
