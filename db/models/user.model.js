@@ -51,6 +51,7 @@ class User extends Model {
       otherKey: 'business_id',   // Clave foránea en UserBusinessRole que se relaciona con Business
       as:'BusinessxUser'
     });
+    this.hasMany(models.Client, { as: 'clients', foreignKey: 'user_id' });
   }
 
   static config(sequelize) {

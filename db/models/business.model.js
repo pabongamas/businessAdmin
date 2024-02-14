@@ -32,6 +32,8 @@ class Business extends Model {
       as:'userxBusiness'
     });
     this.hasMany(models.Product, { as: 'products', foreignKey: 'business_id' });
+    this.hasMany(models.Client, { as: 'clients', foreignKey: 'business_id' });
+
   
   }
 

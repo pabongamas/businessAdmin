@@ -8,6 +8,7 @@ const {
 } = require("./UserBusinessRol.model");
 const {Categories,CategoriesSchema}=require("./categorieProduct.model");
 const {Product,ProductSchema}=require("./product.model");
+const {Client,ClientsSchema}=require("./clients.model")
 const { Sequelize } = require("sequelize");
 
 function setupModels(sequelize) {
@@ -18,6 +19,7 @@ function setupModels(sequelize) {
   UserBusinessRole.init( UserBusinessRoleSchema,UserBusinessRole.config(sequelize));
   Categories.init(CategoriesSchema,Categories.config(sequelize));
   Product.init(ProductSchema,Product.config(sequelize));
+  Client.init(ClientsSchema,Client.config(sequelize));
 
   User.associate(sequelize.models);
   Role.associate(sequelize.models);
@@ -26,6 +28,7 @@ function setupModels(sequelize) {
   UserBusinessRole.associate(sequelize.models);
   Categories.associate(sequelize.models);
   Product.associate(sequelize.models);
+  Client.associate(sequelize.models);
 }
 
 module.exports = setupModels;
