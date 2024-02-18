@@ -24,5 +24,17 @@ router.get("/business",autenticacionJwt,checkAdminRole, async (req, res, next) =
     next(error);
   }
 });
+router.get("/business/searchClient",autenticacionJwt,checkAdminRole,async (req, res, next) => {
+  try {
+      const { search } = req.query;
+      const user=req.user;
+      user.id=user.sub;
+      const business=await ServiceBusiness.businessByUser(user);
+      const clients = await service.search(search,business);
+      res.json(clients);
+  } catch (error) {
+      next(error);
+  }
+});
 
 module.exports=router;

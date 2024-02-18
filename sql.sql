@@ -38,3 +38,12 @@ alter table categories add column business_id integer not null;
 
 
 alter table clients add column active boolean not null ;
+
+
+
+ insert into clients (names,lastnames,nickname,phone,gender,birthdate,address,create_at,active,business_id,user_id) values('maria fernanda','ballesteros','mafe','3167673359','t','1990-12-31','callecita es la direccion',now(),'t',2,9);
+
+ insert into clients (names,lastnames,nickname,phone,gender,birthdate,address,create_at,active,business_id,user_id) values('harold','guevara','jarold','316464646','t','1996-12-31','otra direccion',now(),'t',1,6);
+
+
+ insert into clients (names,lastnames,nickname,phone,gender,birthdate,address,create_at,active,business_id,user_id) values('steven','muñoz','steven','316464646','t','1996-12-31','otra direccion',now(),'f',1,7);
