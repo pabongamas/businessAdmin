@@ -76,5 +76,24 @@ class ClientsService {
     });
     return rta;
   }
+
+  async createClient(data,idUser,business) {
+    try {
+      
+      if(business.lenght===0){
+        throw boom.conflict("No se ha encontrado Negocios  para vincular al Nuevo cliente");
+      }
+      console.log(data);
+      const newClient = await models.Client.create({
+        ...data,
+        user_id: idUser,
+        business_id:business[0].id
+      });
+      //quitar password del usuario creado al retornanr la informacion al frontend
+      return newClient;
+    } catch (error) {
+      throw boom.badRequest(error);
+    }
+  }
 }
 module.exports = ClientsService;

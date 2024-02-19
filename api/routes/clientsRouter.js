@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require('passport');
 const ClientsService = require('./../services/clients.service');
 const businessService=require('./../services/business.service');
+const userService=require('./../services/users.service');
+
 const validatorHandler = require('./../middlewares/validator.handler');
 const {checkAdminRole}=require('./../middlewares/auth.handler');
 const {
@@ -11,6 +13,7 @@ const autenticacionJwt= passport.authenticate('jwt', { session: false });
 const router = express.Router();
 const service = new ClientsService();
 const ServiceBusiness=new businessService();
+const serviceUser=new userService();
 
 
 router.get("/business",autenticacionJwt,checkAdminRole, async (req, res, next) => {
@@ -36,5 +39,27 @@ router.get("/business/searchClient",autenticacionJwt,checkAdminRole,async (req, 
       next(error);
   }
 });
+
+router.post('/save',autenticacionJwt,checkAdminRole,
+  validatorHandler(createClientSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const user=req.user;
+      user.id=user.sub;
+      //obtengo los business del usuario que inicio sesion
+      const business=await ServiceBusiness.businessByUser(user);
+      //seteo los datos para crear el usuario
+      const obj={email:body.email,password:'secret'}
+      //creo el usuario y obtengo los datos de usuario para insertar el user :id al que pertenece el nuevo cliente
+      const userCreated=await serviceUser.create(obj);
+
+      const newClient = await service.createClient(body,userCreated.id,business);
+      res.status(201).json(newClient);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports=router;

@@ -5,10 +5,11 @@ const email = Joi.string().email();
 const names=Joi.string();
 const lastnames=Joi.string();
 const nickname=Joi.string();
-const phone=Joi.string();
+const phone=Joi.number();
 const gender=Joi.boolean();
 const birthdate=Joi.string();
 const address=Joi.string();
+const active=Joi.boolean();
 const businessId= Joi.number().integer();
 const userId = Joi.number().integer();
 
@@ -22,6 +23,7 @@ const createClientSchema = Joi.object({
   gender: gender.required(),
   birthdate:birthdate.required(),
   address:address,
+  active:active
 });
 
 

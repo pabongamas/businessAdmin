@@ -45,6 +45,10 @@ const ClientsSchema = {
     field: 'create_at',
     defaultValue: Sequelize.NOW
   },
+  active: {
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+  },
   business_id: {
     allowNull: false,
     type: DataTypes.INTEGER,
