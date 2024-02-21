@@ -10,8 +10,8 @@ const gender=Joi.boolean();
 const birthdate=Joi.string();
 const address=Joi.string();
 const active=Joi.boolean();
-const businessId= Joi.number().integer();
-const userId = Joi.number().integer();
+const user= Joi.object();
+const business = Joi.object()
 
 
 const createClientSchema = Joi.object({
@@ -26,5 +26,22 @@ const createClientSchema = Joi.object({
   active:active
 });
 
+const updateClientSchema=Joi.object({
+  email: email.required(),
+  names: names.required(),
+  lastnames: lastnames.required(),
+  nickname: nickname,
+  phone: phone,
+  gender: gender.required(),
+  birthdate:birthdate.required(),
+  address:address,
+  active:active,
+  user:user,
+  business:business
+});
+const getClientSchema = Joi.object({
+  id: id.required(),
+});
 
-module.exports = { createClientSchema }
+
+module.exports = { createClientSchema,getClientSchema,updateClientSchema }
