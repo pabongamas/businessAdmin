@@ -84,9 +84,40 @@ router.patch('/update/:id', autenticacionJwt, checkAdminRole,
     try {
       const { id } = req.params;
       const body = req.body;
-      console.log(body)
-      // const user = await service.update(id, body);
-      res.json("hola");
+      //creo nuevo objeto con los datos a modificar de clientes
+      const changes={names:body.names,lastnames:body.lastnames,nickname:body.nickname,phone:body.phone,
+        birthdate:body.birthdate,address:body.address,active:body.active,gender:body.gender}
+      const client = await service.updateClient(id, changes);
+
+      //por si se edito el email actualizarlo en users
+      const user=body.user;
+      const userData={email:body.email}
+      const userEdit=serviceUser.update(user.id,userData);
+      res.json(client);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete('/delete/:id',
+  validatorHandler(getClientSchema, 'params'),
+  autenticacionJwt,checkAdminRole,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const{userId}=await service.delete(id);
+
+       //desasigno relacion de usuario como rol de cliente(customer)
+       const userRoldata = {
+        userId: userId, rolId: 3
+      }
+      await serviceUser.unSetRol(userRoldata);
+
+      //desagigno relacion de  buser_business_role
+
+      
+      res.status(201).json({id});
     } catch (error) {
       next(error);
     }

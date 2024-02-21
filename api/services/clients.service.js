@@ -4,6 +4,14 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 class ClientsService {
   constructor() { }
+
+  async findOne(id) {
+    const client = await models.Client.findByPk(id);
+    if (!client) {
+      throw boom.notFound("Cliente no encontrado");
+    }
+    return client;
+  }
   async findByBusiness(business) {
     const businessId = business.map(objeto => objeto.id);
     const rta = await models.Client.findAll({
@@ -83,7 +91,6 @@ class ClientsService {
       if(business.lenght===0){
         throw boom.conflict("No se ha encontrado Negocios  para vincular al Nuevo cliente");
       }
-      console.log(data);
       const newClient = await models.Client.create({
         ...data,
         user_id: idUser,
@@ -95,5 +102,17 @@ class ClientsService {
       throw boom.badRequest(error);
     }
   }
+  async updateClient(id, changes){
+    const client = await this.findOne(id);
+    const rta = await client.update(changes);
+    return rta;
+  }
+
+  async delete(id) {
+    const client = await this.findOne(id);
+    const UserId=client.user_id;
+    await client.destroy();
+    return { client,userId:UserId };
+}
 }
 module.exports = ClientsService;
