@@ -118,6 +118,16 @@ class UsersService {
     });
     return newBusinessRolToUser;
   }
+  async unsetBusinessRolToUser(data) {
+    const newRolUser = await models.UserBusinessRole.destroy({
+      where: {
+        idUser: data.userId,
+        idRole: data.rolId,
+        idBusiness:data.businessId
+      }
+    });
+    return data;
+  }
   async searchRoleAndBusinessByUser(data) {
     const rta = await models.User.findAll({
       where: {

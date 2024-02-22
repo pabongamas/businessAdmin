@@ -108,14 +108,21 @@ router.delete('/delete/:id',
       const { id } = req.params;
       const{userId}=await service.delete(id);
 
+      const user = req.user;
+      user.id = user.sub;
+      //obtengo los business del usuario que inicio sesion
+      const business = await ServiceBusiness.businessByUser(user);
+
        //desasigno relacion de usuario como rol de cliente(customer)
        const userRoldata = {
         userId: userId, rolId: 3
       }
       await serviceUser.unSetRol(userRoldata);
-
+      const userRolBusinessData = {
+        userId: userId, rolId: 3,businessId:business[0].id
+      }
       //desagigno relacion de  buser_business_role
-
+      await serviceUser.unsetBusinessRolToUser(userRolBusinessData);
       
       res.status(201).json({id});
     } catch (error) {
