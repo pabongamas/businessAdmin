@@ -92,7 +92,7 @@ router.patch('/update/:id', autenticacionJwt, checkAdminRole,
       //por si se edito el email actualizarlo en users
       const user=body.user;
       const userData={email:body.email}
-      const userEdit=serviceUser.update(user.id,userData);
+      const userEdit=await serviceUser.update(user.id,userData);
       res.json(client);
     } catch (error) {
       next(error);

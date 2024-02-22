@@ -11,7 +11,7 @@ const ProductSchema = {
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
-    field:'id',
+    field:'product_id',
   },
   business_id: {
     allowNull: false,
