@@ -65,10 +65,10 @@ CREATE TABLE sales(
    payment_date timestamp with time zone,
    total_pay numeric,
    pay_completed boolean NOT NULL,
-   business_id integer,
+   business_id integer NOT NULL,
    CONSTRAINT fk_sales_client FOREIGN KEY (client_id) REFERENCES clients(client_id),
    CONSTRAINT fk_sales_methodpay FOREIGN KEY (methodpay_id) REFERENCES methodpay(methodpay_id),
-   CONSTRAINT fk_sales_business FOREIGN KEY (business_id) REFERENCES business(business_id)
+   CONSTRAINT fk_sales_business FOREIGN KEY (\) REFERENCES business(business_id)
 );
 
 CREATE TABLE sales_products(
