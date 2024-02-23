@@ -1,4 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { BUSINESS_TABLE } = require('./business.model');
+const {CLIENT_TABLE} = require('./clients.model');
+const {TABLE_METHOD_PAY} = require('./MethodPay.model');
+
+
 const SALES_TABLE = 'sales';
 
 const salesSchema={
@@ -18,6 +23,9 @@ const salesSchema={
         allowNull: false,
         type: DataTypes.INTEGER,
         field:'client_id',
+        references: { model: CLIENT_TABLE, key: 'client_id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     },
     total:{
         allowNull: false,
@@ -31,6 +39,9 @@ const salesSchema={
         allowNull: true,
         type: DataTypes.INTEGER,
         field:'methodpay_id',
+        references: { model: TABLE_METHOD_PAY, key: 'methodpay_id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     },
     paymentDate:{
         allowNull: true,
@@ -51,6 +62,9 @@ const salesSchema={
         allowNull: false,
         type: DataTypes.INTEGER,
         field:'business_id',
+        references: { model: BUSINESS_TABLE, key: 'business_id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     }
 };
 

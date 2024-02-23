@@ -68,7 +68,7 @@ CREATE TABLE sales(
    business_id integer NOT NULL,
    CONSTRAINT fk_sales_client FOREIGN KEY (client_id) REFERENCES clients(client_id),
    CONSTRAINT fk_sales_methodpay FOREIGN KEY (methodpay_id) REFERENCES methodpay(methodpay_id),
-   CONSTRAINT fk_sales_business FOREIGN KEY (\) REFERENCES business(business_id)
+   CONSTRAINT fk_sales_business FOREIGN KEY (business_id) REFERENCES business(business_id)
 );
 
 CREATE TABLE sales_products(
@@ -98,9 +98,9 @@ INSERT INTO sales(sale_date, client_id, total, active,pay_completed,business_id)
 values('now',2,100000,'t','f',1);
 
 
-insert into sales_products(sale_id,product_id,item_sale,quantity,total_item_quantity) values(3,15,1,1,120000);
+insert into sales_products(sale_id,product_id,item_sale,quantity,total_item_quantity) values(1,15,1,1,120000);
 
-insert into sales_products(sale_id,product_id,item_sale,quantity,total_item_quantity) values(3,15,1,1,120000);
+insert into sales_products(sale_id,product_id,item_sale,quantity,total_item_quantity) values(2,15,1,1,120000);
 
 
 
